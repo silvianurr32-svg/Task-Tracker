@@ -4,19 +4,19 @@ import { format, isPast, differenceInHours } from 'date-fns'
 import { api } from '../api'
 import { useToast } from './Toast'
 import StatusBadge from './StatusBadge'
-import ProofUpload from './ProofUpload'
+import TrackerUpload from './TrackerUpload'
 
 const STATUS_FLOW = {
   pending:        'in_progress',
-  in_progress:    'awaiting_proof',
-  awaiting_proof: 'completed',
+  in_progress:    'awaiting_tracker',
+  awaiting_tracker: 'completed',
   completed:      null,
 }
 
 const STATUS_ACTION = {
   pending:        'Start Task',
-  in_progress:    'Upload Proof & Review',
-  awaiting_proof: 'Mark Complete',
+  in_progress:    'Upload Tracker & Review',
+  awaiting_tracker: 'Mark Complete',
   completed:      null,
 }
 
@@ -31,7 +31,7 @@ export default function TaskModal({ task: initTask, onClose, onUpdate, onDelete 
   const deadlinePast   = task.deadline && isPast(new Date(task.deadline))
   const deadlineSoon   = task.deadline && !deadlinePast && differenceInHours(new Date(task.deadline), new Date()) < 3
 
-  const handleProofUploaded = (updated) => {
+  const handleTrackerUploaded = (updated) => {
     setTask(updated)
     onUpdate(updated)
   }
@@ -39,12 +39,12 @@ export default function TaskModal({ task: initTask, onClose, onUpdate, onDelete 
   const handleStatusNext = async () => {
     const next = STATUS_FLOW[task.status]
     if (!next) return
-    if (next === 'completed' && !task.proof_image) {
-      toast('Upload a proof image first!', 'error')
+    if (next === 'completed' && !task.tracker_image) {
+      toast('Upload a tracker image first!', 'error')
       return
     }
-    if (next === 'awaiting_proof') {
-      toast('Upload your proof below to continue', 'error')
+    if (next === 'awaiting_tracker') {
+      toast('Upload your tracker below to continue', 'error')
       return
     }
     setSaving(true)
