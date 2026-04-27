@@ -1,6 +1,6 @@
-# TaskProof
+# TaskTracker
 
-Task management app where you **must upload proof** before marking a task complete.
+Task management app where you **must upload tracker** before marking a task complete.
 
 ## Color Palette
 - Background `#fef6e4` · Headline `#001858` · Paragraph `#172c66`
