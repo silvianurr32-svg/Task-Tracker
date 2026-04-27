@@ -1,0 +1,74 @@
+import { format, isPast, differenceInHours, isToday, isTomorrow } from 'date-fns'
+import { Clock, ImageIcon, CheckCircle } from 'lucide-react'
+import StatusBadge from './StatusBadge'
+
+function deadlineLabel(dl) {
+  const d = new Date(dl)
+  if (isToday(d))    return `Today ${format(d, 'HH:mm')}`
+  if (isTomorrow(d)) return `Tomorrow ${format(d, 'HH:mm')}`
+  return format(d, 'MMM d, HH:mm')
+}
+
+export default function TaskCard({ task, onClick }) {
+  const hasDeadline   = !!task.deadline
+  const deadlinePast  = hasDeadline && isPast(new Date(task.deadline))
+  const deadlineSoon  = hasDeadline && !deadlinePast && differenceInHours(new Date(task.deadline), new Date()) < 3
+  const isCompleted   = task.status === 'completed'
+
+  const borderColor = isCompleted ? 'border-ink/8'
+    : deadlinePast  ? 'border-red-300/60'
+    : deadlineSoon  ? 'border-amber-300/60'
+    : 'border-ink/8'
+
+  const bgAccent = isCompleted ? 'bg-white'
+    : deadlinePast  ? 'bg-red-50/50'
+    : deadlineSoon  ? 'bg-amber-50/50'
+    : 'bg-white'
+
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full text-left card ${bgAccent} ${borderColor} border p-4 hover:shadow-modal transition-all duration-200 hover:-translate-y-0.5 group`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5">
+            <StatusBadge status={task.status} />
+            {task.proof_image && !isCompleted && (
+              <span className="flex items-center gap-1 text-xs text-sky font-medium">
+                <ImageIcon size={10} /> Proof ready
+              </span>
+            )}
+            {isCompleted && (
+              <span className="flex items-center gap-1 text-xs text-ink/40">
+                <CheckCircle size={10} /> Done
+              </span>
+            )}
+          </div>
+          <p className={`font-medium text-sm leading-snug ${isCompleted ? 'line-through text-ink/40' : 'text-ink'}`}>
+            {task.title}
+          </p>
+          {task.description && (
+            <p className="text-xs text-navy/50 mt-1 line-clamp-1">{task.description}</p>
+          )}
+        </div>
+        {task.proof_image && (
+          <img
+            src={task.proof_image}
+            alt="proof"
+            className="w-12 h-12 rounded-lg object-cover border border-ink/8 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity"
+          />
+        )}
+      </div>
+      {hasDeadline && (
+        <div className={`flex items-center gap-1 mt-2.5 text-xs
+          ${deadlinePast ? 'text-red-500 font-semibold' : deadlineSoon ? 'text-amber-600 font-semibold' : 'text-navy/40'}`}>
+          <Clock size={11} />
+          {deadlineLabel(task.deadline)}
+          {deadlinePast && ' · Overdue'}
+          {deadlineSoon && !deadlinePast && ' · Due soon'}
+        </div>
+      )}
+    </button>
+  )
+}

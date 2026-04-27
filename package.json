@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  body {
+    background-color: #fef6e4;
+    color: #001858;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: 'DM Serif Display', serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-blush text-ink font-semibold px-5 py-2.5 rounded-xl shadow-btn
+           hover:bg-pink-400 active:scale-95 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none;
+  }
+  .btn-ghost {
+    @apply border border-ink/20 text-navy font-medium px-5 py-2.5 rounded-xl
+           hover:bg-ink/5 active:scale-95 transition-all duration-150;
+  }
+  .input-field {
+    @apply w-full bg-white border border-ink/15 rounded-xl px-4 py-2.5 text-ink placeholder-navy/40
+           focus:outline-none focus:border-sky focus:ring-2 focus:ring-sky/20 transition-all duration-150;
+  }
+  .card {
+    @apply bg-white rounded-xl2 border border-ink/8 shadow-card;
+  }
+}
+
+@keyframes toast-in {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes toast-out {
+  from { transform: translateY(0);    opacity: 1; }
+  to   { transform: translateY(20px); opacity: 0; }
+}
+.toast-enter { animation: toast-in  0.25s ease forwards; }
+.toast-leave { animation: toast-out 0.25s ease forwards; }
+
+@keyframes modal-in {
+  from { transform: scale(0.96) translateY(8px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);   opacity: 1; }
+}
+.modal-enter { animation: modal-in 0.2s ease forwards; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in { animation: fade-in 0.2s ease forwards; }
