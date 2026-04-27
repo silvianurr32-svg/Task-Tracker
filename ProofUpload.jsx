@@ -78,7 +78,7 @@ export default function Dashboard() {
             <div className="w-7 h-7 bg-blush rounded-lg flex items-center justify-center shadow-btn">
               <CheckSquare size={14} className="text-ink" />
             </div>
-            <span className="font-display text-ink text-lg leading-none">TaskProof</span>
+            <span className="font-display text-ink text-lg leading-none">TaskTracker</span>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-sm text-navy/60 hidden sm:block">{user?.name}</span>
