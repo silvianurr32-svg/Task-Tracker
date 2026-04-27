@@ -3,11 +3,11 @@ import { Upload, ImageIcon, X } from 'lucide-react'
 import { api } from '../api'
 import { useToast } from './Toast'
 
-export default function ProofUpload({ task, onUploaded }) {
+export default function TrackerUpload({ task, onUploaded }) {
   const toast = useToast()
   const [dragging, setDragging] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const [preview, setPreview] = useState(task.proof_image ? `${task.proof_image}` : null)
+  const [preview, setPreview] = useState(task.tracker_image ? `${task.tracker_image}` : null)
   const inputRef = useRef()
 
   const handleFile = async (file) => {
@@ -23,13 +23,13 @@ export default function ProofUpload({ task, onUploaded }) {
     setUploading(true)
     try {
       const form = new FormData()
-      form.append('proof', file)
-      const updated = await api.uploadProof(task.id, form)
+      form.append('tracker', file)
+      const updated = await api.uploadTracker(task.id, form)
       onUploaded(updated)
-      toast('Proof uploaded!')
+      toast('Tracker uploaded!')
     } catch (e) {
       toast(e.message, 'error')
-      setPreview(task.proof_image || null)
+      setPreview(task.tracker_image || null)
     } finally {
       setUploading(false)
     }
@@ -48,8 +48,8 @@ export default function ProofUpload({ task, onUploaded }) {
   if (task.status === 'completed') {
     return preview
       ? <div className="mt-3 rounded-xl overflow-hidden border border-ink/10">
-          <img src={preview} alt="Proof" className="w-full max-h-48 object-cover" />
-          <p className="text-xs text-navy/60 px-3 py-1.5 bg-skin/30">Submitted proof</p>
+          <img src={preview} alt="Tracker" className="w-full max-h-48 object-cover" />
+          <p className="text-xs text-navy/60 px-3 py-1.5 bg-skin/30">Submitted tracker</p>
         </div>
       : null
   }
