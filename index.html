@@ -34,9 +34,9 @@ export default function TaskCard({ task, onClick }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1.5">
             <StatusBadge status={task.status} />
-            {task.proof_image && !isCompleted && (
+            {task.tracker_image && !isCompleted && (
               <span className="flex items-center gap-1 text-xs text-sky font-medium">
-                <ImageIcon size={10} /> Proof ready
+                <ImageIcon size={10} /> Tracker ready
               </span>
             )}
             {isCompleted && (
@@ -52,10 +52,10 @@ export default function TaskCard({ task, onClick }) {
             <p className="text-xs text-navy/50 mt-1 line-clamp-1">{task.description}</p>
           )}
         </div>
-        {task.proof_image && (
+        {task.tracker_image && (
           <img
-            src={task.proof_image}
-            alt="proof"
+            src={task.tracker_image}
+            alt="tracker"
             className="w-12 h-12 rounded-lg object-cover border border-ink/8 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity"
           />
         )}
